@@ -1,0 +1,55 @@
+# gnuplot 設定ファイル
+# 時刻歴波形データのプロット例
+#
+# 最初に各種の設定をリセットする
+reset
+
+# 明示的に横軸と縦軸の範囲を決める
+# 最初は指定せずにデフォルト表示をよく見て，データ幅を確認してから設定する
+#set xrange [ 0 : 0 ]
+#set yrange [ 0 : 0 ]
+
+# 上と右の軸目盛りを表示しない
+set xtics nomirror
+set ytics nomirror
+
+# 目盛りの刻み幅を指定
+# 最初は指定せずに，デフォルト表示をよく見て目盛り間隔を決めてから記述する
+#何ステップごとに目盛りをつけるか
+#set xtics 1
+#set ytics 1
+
+# 1目盛りあたりを何等分するか
+#set mxtics 5
+#set mytics 5
+
+# 目盛りのフォーマット変更用
+#set format y "%.1f"
+#set format x "%.1f"
+
+# 目盛りの大きさ変更
+#set ticscale 1.5
+
+# オシロスコープのようなグリッド線を表示する
+# ファイル出力用に調整，ここでは「破線」「線幅0.3」
+# set grid lt 0 lw 0.3
+
+# 軸名称を設定 → plot コマンド中で操作している ms の単位変換と合わせる
+set xlabel "ExampleX"
+set ylabel "ExampleY"
+
+# 凡例位置を指定
+# 必要に応じて処理追加
+plot "%s" u 1 : 2
+
+# ファイル出力(emf形式)
+set term emf color font "Times New Roman,24" enhanced lw 2
+set output "%s"
+replot
+set output
+
+# 端末の変更と後片付け
+TERM = "Default"
+set out
+set term pop
+reset
