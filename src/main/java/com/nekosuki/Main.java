@@ -7,13 +7,9 @@ import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) throws IOException{
-        String filePath;
-        try{
-            filePath = args[0];
-        }catch (ArrayIndexOutOfBoundsException e){
-            System.out.println("File Not Exists....");
-            return;
-        }
+        String filePath = "";
+        if (args.length > 0) filePath = args[0];
+        else throw new RuntimeException("Not DataFiles....");
         File file = new File(filePath);
         File editFile = new File(file.getName().split("\\.")[0] + "Edit.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
@@ -47,12 +43,15 @@ public class Main {
         }
         br.close();
         bw.close();
-        createPLT(file);
+        if (args.length >= 3){
+            createPLT(file, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+        }else {
+            createPLT(file, 0, 0);
+        }
     }
 
-    public static void createPLT(File f){
+    public static void createPLT(File f, int a, int b){
         var resource = Objects.requireNonNull(Main.class.getResource("example.txt")).getFile();
-
         StringBuilder stringBuilder = new StringBuilder();
         String line;
         try(BufferedReader br = new BufferedReader(new FileReader(resource, StandardCharsets.UTF_8))){
