@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) throws IOException{
-        String filePath = "";
+        String filePath;
         if (args.length > 0) filePath = args[0];
         else throw new RuntimeException("Not DataFiles....");
         File file = new File(filePath);
@@ -46,18 +46,19 @@ public class Main {
         if (args.length >= 3){
             createPLT(file, Integer.parseInt(args[1]), Integer.parseInt(args[2]));
         }else {
-            createPLT(file, 0, 0);
+            createPLT(file, 1, 2);
         }
+        System.out.println(args.length);
     }
 
     public static void createPLT(File f, int a, int b){
-        var resource = Objects.requireNonNull(Main.class.getResource("example.txt")).getFile();
+        var resource = Objects.requireNonNull(Main.class.getResourceAsStream("example.txt"));
         StringBuilder stringBuilder = new StringBuilder();
         String line;
-        try(BufferedReader br = new BufferedReader(new FileReader(resource, StandardCharsets.UTF_8))){
+        try(BufferedReader br = new BufferedReader(new InputStreamReader(resource, StandardCharsets.UTF_8))){
             while ((line = br.readLine()) != null){
-                if (line.equals("plot \"%s\" u 1 : 2")){
-                    line = line.formatted(f.getName().split("\\.")[0] + "Edit.txt");
+                if (line.startsWith("plot")){
+                    line = line.formatted(f.getName().split("\\.")[0] + "Edit.txt", a, b);
                 }else if (line.equals("set output \"%s\"")){
                     line = line.formatted(f.getName().split("\\.")[0] + "Out.emf");
                 }

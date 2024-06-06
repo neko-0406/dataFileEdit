@@ -40,7 +40,7 @@ set ylabel "ExampleY"
 
 # 凡例位置を指定
 # 必要に応じて処理追加
-plot "%s" u 1 : 2
+plot "%s" u %s : %s
 
 # ファイル出力(emf形式)
 set term emf color font "Times New Roman,24" enhanced lw 2
